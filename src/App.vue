@@ -13,9 +13,23 @@ export default {
       const response = await fetch("http://localhost:4730/books?_limit=12/");
       this.bookData = await response.json();
     },
+    async getState() {
+      this.favorites = JSON.parse(localStorage.getItem("safeFavorites")) || [];
+
+      for (let i = 0; i < this.bookData.length; i++) {
+        this.bookData[i].favorite = this.favorites.includes(
+          this.bookData[i].id
+        );
+        /* if (this.bookData[i]) {
+          console.log("Juhuu");
+          this.content = "❤️";
+        } */
+      }
+    },
   },
   async created() {
-    this.getBooks();
+    await this.getBooks();
+    await this.getState();
   },
 };
 </script>

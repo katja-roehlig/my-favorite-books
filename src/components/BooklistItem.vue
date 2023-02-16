@@ -24,7 +24,17 @@ export default {
         let bookIndex = this.favorites.indexOf(this.book.id);
         this.favorites.splice(bookIndex, 1);
       }
+
+      localStorage.setItem("safeFavorites", JSON.stringify(this.favorites));
     },
+    showFavorite() {
+      if (this.favorites.includes(this.book.id)) {
+        this.content = "❤️";
+      }
+    },
+  },
+  beforeUpdate() {
+    this.showFavorite();
   },
 };
 </script>
@@ -41,6 +51,7 @@ export default {
       <p class="booklist__item--author">{{ book.author }}</p>
       <p class="booklist__item--title">{{ book.title }}</p>
       <p class="booklist__item--isbn">{{ book.price }}</p>
+      <p>{{ book.favorite }}</p>
     </div>
   </li>
 </template>
